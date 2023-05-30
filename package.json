@@ -1,0 +1,11 @@
+{
+  "name": "blog-backend",
+  "version": "1.0.0",
+  "description": "This a blogging site",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kiran",
+  "license": "ISC"
+}
