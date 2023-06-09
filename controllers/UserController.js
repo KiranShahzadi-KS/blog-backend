@@ -1,27 +1,48 @@
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+
+    const createWebToken = async (id)=>{
+    return jwt.sign({id}, process.env.JWT_SECRET);
+}
 
 //create user
+    const createUser = async(req, res)=>{
+        try {
 
-const createUser = async(req, res)=>{
-        await User.create({
-        first_name:req.body.first_name,
-        last_name:req.body.last_name,
-        email:req.body.email,
-        password:req.body.password,
-        // role:"admin",
-        profile:process.env.AVATAR_IMG
-    });
+        let salt = await bcrypt.genSalt();
+        let encrypt_password = await bcrypt.hash(req.body.password,salt);
+        let user =    await User.create({
+            first_name:req.body.first_name,
+            last_name:req.body.last_name,
+            email:req.body.email,
+            password:encrypt_password,
+            role:"user",
+            profile:process.env.AVATAR_IMG
+        });
+        let jwttoken = await createWebToken(user._id);
+        res.json({
+            success:true,
+            token:jwttoken,
+            'message': 'user record stored successfully!'
+    
+        });
+    
+} catch (error) {
     res.json({
-        'message': 'use recoed stored successfully!'
-
+        success:false,
+        'message': error
     })
 }
+}
+    
 
 //User get by  id
     const getbyId = async(req, res) =>{
     const user = await User.findById(req.params.id);
 
     res.json({
+        success:true,
         'message': 'user data fetch successfully',
         'data': user
     })
@@ -34,6 +55,7 @@ const updateUser = async(req, res)=>{
         first_name:req.body.first_name,
         last_name:req.body.last_name,
         password:req.body.password,
+        profile:req.body.AVATAR_IMG
     }); 
     res.json({
         
