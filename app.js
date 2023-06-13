@@ -4,8 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const app = express();
 dotenv = require('dotenv').config(); //use to secure to push in github 
-
-
+const cors = require("cors");
 
 const server = http.createServer(app); //create server
 
@@ -20,7 +19,7 @@ mongoose.connect(process.env.DATABASE_URL).then(() =>  //in process link is in e
 {console.log('Connected!')})
 
 
-app.use("/v1/api", require("./routes/api"));
+app.use("/v1/api",cors, require("./routes/api"));
 
 
 server.listen(5000,()=>{

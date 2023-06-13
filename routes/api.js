@@ -7,6 +7,8 @@ const{authToken} = require("../middlerware/Auth");
 const{login} = require("../controllers/AuthController");
 const{updateUserProfile} = require("../controllers/ProfileController");
 const{publish, unpublish, approvedByAdmin} = require("../controllers/PublishController");
+const { restlink, ForgotPassword } = require("../controllers/ForgotPasswordController");
+  
 
 
 //image upload //upload file
@@ -45,7 +47,7 @@ router.get("/user/delete/:id",authToken, deleteUser)
 
 //post routers
 router.post("/createPost", upload.single("image"),createPost);
-router.get("/post/:id", authToken, getpostbyId)
+router.get("/post/:id",authToken, getpostbyId)
 router.post("/post/update/:id", upload.single("image"), updatePost)
 router.get("/posts", getallPosts)
 router.get("/post/delete/:id",authToken, deletePost)
@@ -62,5 +64,11 @@ router.post("/update/user/profile/:id", upload.single("image"), updateUserProfil
 router.get("/publish/post/:id", publish);
 router.get("/unpublish/post/:id", unpublish);
 router.get("/post/approved/:id",approvedByAdmin);
+
+
+// send mail route
+router.post("/send-rest-link",restlink);
+router.get("/forgot/password",ForgotPassword);
+
 
 module.exports = router;
