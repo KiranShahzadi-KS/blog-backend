@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 //database connection
 // const db_uri = "mongodb://127.0.0.1:27017/blog" //import routes
 mongoose.set("strictQuery", false);
-mongoose.connect(process.env.DATABASE_URL).then(() =>  //in process link is in env file
+mongoose.connect("mongodb://127.0.0.1:27017/blog").then(() =>  //in process link is in env file
 {console.log('Connected!')})
 
 
